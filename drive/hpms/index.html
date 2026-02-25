@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highland Park Middle School · St. Paul</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            color: #1e2b37;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* header with scot plaid accent */
+        .hero {
+            background: linear-gradient(145deg, #1e3d5e 0%, #143048 100%);
+            color: white;
+            padding: 2.5rem 1.5rem;
+            border-bottom: 8px solid #b94e2c; /* highland rust */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .hero h1 i {
+            color: #f5c66f;
+            margin-right: 12px;
+        }
+
+        .hero .subhead {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero .subhead i {
+            margin-right: 8px;
+            color: #f5c66f;
+        }
+
+        .badge-ib {
+            background: #f5c66f;
+            color: #1e2b37;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-top: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .badge-ib i {
+            color: #1e3d5e;
+        }
+
+        /* card layout */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.8rem 1.5rem;
+            box-shadow: 0 12px 26px -8px rgba(0, 30, 50, 0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 35px -12px rgba(30, 61, 94, 0.25);
+        }
+
+        .card h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            border-left: 10px solid #b94e2c;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            color: #143048;
+        }
+
+        .card h2 i {
+            color: #b94e2c;
+            margin-right: 12px;
+            font-size: 2rem;
+            vertical-align: middle;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            margin-bottom: 1.1rem;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .info-list li i {
+            width: 28px;
+            color: #1e3d5e;
+            font-size: 1.4rem;
+            margin-top: 3px;
+        }
+
+        .stat-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+        }
+
+        .stat-item {
+            background: #eef3f8;
+            border-radius: 60px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            color: #143048;
+        }
+
+        .stat-item span {
+            font-weight: 400;
+            color: #3b5d7a;
+            margin-right: 6px;
+        }
+
+        .program-tag {
+            background: #f0f4fa;
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            margin: 0.5rem 0.5rem 0 0;
+            display: inline-block;
+            font-weight: 500;
+            border-left: 5px solid #b94e2c;
+        }
+
+        .image-card {
+            background: #eaf0f5;
+            border-radius: 28px;
+            overflow: hidden;
+            margin: 2.5rem 0;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 4px solid #b94e2c;
+        }
+
+        .image-caption {
+            padding: 1rem 2rem 1.5rem 2rem;
+            background: white;
+            font-style: italic;
+            color: #2d4968;
+            font-size: 1.05rem;
+        }
+
+        .image-caption i {
+            color: #b94e2c;
+            margin-right: 6px;
+        }
+
+        .renovation-banner {
+            background: #1e3d5e;
+            color: white;
+            border-radius: 36px;
+            padding: 1.8rem 2rem;
+            margin: 3rem 0;
+            background-image: radial-gradient(circle at 100% 0%, #2f5a82, #143048);
+        }
+
+        .renovation-banner h3 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .renovation-banner p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .renovation-banner .amount {
+            font-weight: 700;
+            background: #f5c66f;
+            color: #143048;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .footer {
+            border-top: 2px dashed #b0c7da;
+            margin-top: 3.5rem;
+            padding: 2rem 0 1rem;
+            text-align: center;
+            color: #3e5e7c;
+            font-size: 1rem;
+        }
+
+        .footer a {
+            color: #1e3d5e;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.4rem; }
+            .hero .subhead { flex-direction: column; gap: 0.6rem; align-items: start; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <div class="container" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
+        <h1>
+            <i class="fas fa-ghost"></i> Highland Park Middle School
+        </h1>
+        <div class="subhead">
+            <span><i class="fas fa-map-pin"></i> Saint Paul, Minnesota</span>
+            <span><i class="fas fa-calendar-alt"></i> Est. 1957 · IB World School</span>
+        </div>
+        <div class="badge-ib">
+            <i class="fas fa-globe"></i> International Baccalaureate · Middle Years Programme
+        </div>
+    </div>
+</div>
+
+<main class="container">
+
+    <!-- ===== quick facts + image ===== -->
+    <div class="image-card">
+        <!-- Historical image of the school (1955-57) from University of Michigan collection -->
+        <img src="https://quod.lib.umich.edu/u/ummu/x-13-01789/13_01789" alt="Black and white photo of Highland Park Middle School secondary entrance, 1955-1957" style="max-height: 460px; object-fit: cover; background: #cad9e8;">
+        <div class="image-caption">
+            <i class="fas fa-camera-retro"></i> Historic view of the school's secondary entrance, designed by Hammel, Green & Abrahamson (1955–57). Source: University of Michigan Library.
+        </div>
+    </div>
+
+    <!-- quick stats card -->
+    <div class="card-grid">
+        <div class="card">
+            <h2><i class="fas fa-school"></i> At a glance</h2>
+            <ul class="info-list">
+                <li><i class="fas fa-location-dot"></i> <strong>975 Snelling Ave. S.</strong> , Saint Paul, MN 55116</li>
+                <li><i class="fas fa-user-graduate"></i> <strong>Principal:</strong> Hibaq Mohamed</li>
+                <li><i class="fas fa-users"></i> <strong>Grades:</strong> 6–8 · 841 students</li>
+                <li><i class="fas fa-clock"></i> <strong>Hours:</strong> 8:30 am – 3:00 pm</li>
+                <li><i class="fas fa-phone-alt"></i> <strong>(651) 293-8950</strong></li>
+            </ul>
+            <div class="stat-row">
+                <div class="stat-item"><span>since</span> 2011 IB MYP</div>
+                <div class="stat-item"><span>immersion</span> Spanish · Mandarin</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-chart-pie"></i> Demographics</h2>
+            <ul class="info-list" style="margin-bottom: 0;">
+                <li><i class="fas fa-people-group"></i> Caucasian 39%</li>
+                <li><i class="fas fa-people-group"></i> Hispanic 30%</li>
+                <li><i class="fas fa-people-group"></i> African American 19%</li>
+                <li><i class="fas fa-people-group"></i> Asian 5% · Two+ races 6%</li>
+                <li><i class="fas fa-utensils"></i> Free/reduced lunch: 47%</li>
+                <li><i class="fas fa-language"></i> 1% American Indian</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-star"></i> Academics & programs</h2>
+            <div>
+                <span class="program-tag"><i class="fas fa-book-open"></i> IB Middle Years</span>
+                <span class="program-tag"><i class="fas fa-users-between-lines"></i> small learning communities</span>
+                <span class="program-tag"><i class="fas fa-globe"></i> Spanish · Chinese · French</span>
+                <span class="program-tag"><i class="fas fa-dna"></i> Spanish / Mandarin immersion</span>
+                <span class="program-tag"><i class="fas fa-robot"></i> Lego League</span>
+                <span class="program-tag"><i class="fas fa-un"></i> Model UN</span>
+                <span class="program-tag"><i class="fas fa-microscope"></i> History Day</span>
+                <span class="program-tag"><i class="fas fa-spell-check"></i> Spelling Bee</span>
+            </div>
+            <p style="margin-top: 1.5rem;"><i class="fas fa-medal" style="color:#b94e2c;"></i> <strong>IB since 2011</strong> – 8 subject groups, critical thinking focus.</p>
+        </div>
+    </div>
+
+    <!-- renovation / construction highlight -->
+    <div class="renovation-banner">
+        <h3><i class="fas fa-hard-hat"></i> 2024–25 transformation</h3>
+        <p><strong>$49.5 million renovation</strong> — new main entrance, remodeled kitchen/cafeteria, classroom technology, and a two‑story link to Highland Park Senior High. <span style="display: inline-block; background: #f5c66f; color:#143048; padding:0.2rem 1rem; border-radius:60px; margin-left:0.8rem;">completing fall 2025</span></p>
+        <div class="amount"><i class="fas fa-wrench"></i> construction in progress</div>
+    </div>
+
+    <!-- student life & athletics -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin: 2.5rem 0;">
+        <div class="card" style="margin:0;">
+            <h2><i class="fas fa-futbol"></i> Athletics & activities</h2>
+            <ul class="info-list">
+                <li><i class="fas fa-basketball-ball"></i> full athletics for 7th/8th</li>
+                <li><i class="fas fa-hockey-puck"></i> sports at Highland Park Senior High</li>
+                <li><i class="fas fa-mask"></i> Scot's After School (SAS)</li>
+                <li><i class="fas fa-chess-queen"></i> Geography Bee, Lego League</li>
+                <li><i class="fas fa-music"></i> music & arts electives</li>
+            </ul>
+        </div>
+        <div class="card" style="margin:0;">
+            <h2><i class="fas fa-building"></i> facility</h2>
+            <ul class="info-list">
+                <li><i class="fas fa-draw-polygon"></i> architect: Hammel, Green & Abrahamson</li>
+                <li><i class="fas fa-calendar"></i> original construction 1955–57</li>
+                <li><i class="fas fa-door-open"></i> two‑story link to high school (2025)</li>
+                <li><i class="fas fa-tree"></i> adjacent to Highland Park</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- immersion and world languages extra -->
+    <div class="card" style="margin-bottom: 2rem; background: #e8f0fa;">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem;">
+            <div style="flex:2; min-width: 240px;">
+                <h2 style="border-left-color: #1e3d5e; margin-bottom: 0.5rem;"><i class="fas fa-language"></i> Language continuum</h2>
+                <p style="font-size: 1.2rem;">Highland Park is the articulation point for <strong>Spanish & Mandarin immersion</strong> elementary students. All IB students take Spanish, Chinese, or French.</p>
+                <p style="margin-top: 0.8rem;"><i class="fas fa-check-circle" style="color:#b94e2c;"></i> continuation programs for immersion graduates</p>
+            </div>
+            <div style="flex:1; background: #1e3d5e; color: white; border-radius: 38px; padding: 1.5rem; text-align: center;">
+                <i class="fas fa-3x fa-earth-americas" style="color:#f5c66f;"></i>
+                <div style="font-weight:600; font-size:1.8rem;">28+</div>
+                <div>languages represented</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- images attribution / beaverton is not st paul, but we only use st paul image already shown. also we can add a school spirit image? no, but we have one authentic umich photo. put a note about modern look. -->
+    <div style="background: white; border-radius: 28px; padding: 2rem; border: 1px solid #cfe0ed; margin: 2rem 0;">
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+            <div style="flex: 1;">
+                <i class="fas fa-image" style="font-size: 3rem; color: #1e3d5e; opacity: 0.5;"></i>
+                <h3 style="font-size: 1.9rem; margin: 0.5rem 0 0.2rem;">Highland Park today</h3>
+                <p>While the historic image above captures the 1957 design, current students enjoy updated classrooms, a full IB curriculum, and a community that reflects the diversity of Saint Paul.</p>
+            </div>
+            <div style="flex: 1; background: #143048; color: white; border-radius: 28px; padding: 1.5rem;">
+                <i class="fas fa-quote-right" style="color:#f5c66f; font-size: 2rem;"></i>
+                <p style="font-weight:300; font-size:1.3rem;">"Small learning communities help every student find their place."</p>
+                <p>— Hibaq Mohamed, principal</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- contact / address footer inside main -->
+    <div style="background: white; border-radius: 40px; padding: 1.5rem 2rem; box-shadow: 0 6px 14px #d4e2f0;">
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: center;">
+            <span><i class="fas fa-map-marked-alt" style="color:#b94e2c;"></i> <strong>975 Snelling Ave. S.</strong> Saint Paul, MN 55116</span>
+            <span><i class="fas fa-phone"></i> (651) 293-8950</span>
+            <span><i class="fas fa-clock"></i> 8:30 am – 3:00 pm</span>
+            <span style="background: #1e3d5e; color: white; padding: 0.4rem 1.2rem; border-radius: 60px;"><i class="fas fa-chevron-right"></i> #WeAreHighland</span>
+        </div>
+    </div>
+
+    <!-- Disclaimer footer about info accuracy (but it's all based on provided data) -->
+    <div class="footer">
+        <p><i class="fas fa-school-circle-check"></i> Information compiled from Saint Paul Public Schools, Minnesota Department of Education, and <a href="https://www.spps.org/highlandparkmiddle" target="_blank">spps.org/highlandparkmiddle</a>. Historic image courtesy University of Michigan Library. <br>© 2025 — fan‑built community page</p>
+    </div>
+
+</main>
+
+</body>
+</html>
