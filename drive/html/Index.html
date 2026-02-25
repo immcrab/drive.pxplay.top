@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>about:blank · live HTML viewer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        body {
+            background: #0b0f1c;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 16px;
+            margin: 0;
+        }
+
+        .viewer-card {
+            width: 100%;
+            max-width: 1300px;
+            height: 85vh;
+            background: #1e2335;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #2f3a5c;
+        }
+
+        .toolbar {
+            background: #151b2b;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #2b3550;
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #00c8aa20;
+            color: #9efff0;
+            font-weight: 500;
+            font-size: 0.8rem;
+            padding: 6px 14px;
+            border-radius: 40px;
+            border: 1px solid #2ec7b0;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge span {
+            font-size: 1.1rem;
+            filter: drop-shadow(0 0 6px #3fe0d0);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-left: 8px;
+        }
+
+        .btn {
+            background: #262f48;
+            border: none;
+            color: #d3e0ff;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 1px solid #35456e;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            background: #32466e;
+            color: white;
+            border-color: #5f7bbf;
+            transform: scale(1.02);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: #0066f0;
+            border-color: #3c8dff;
+            color: white;
+            box-shadow: 0 4px 14px #0066f070;
+        }
+
+        .btn-primary:hover {
+            background: #1f7cff;
+        }
+
+        .btn-clear {
+            background: #282f42;
+            border-color: #4e3f6e;
+            color: #f0d6ff;
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        .status {
+            color: #7f8bb3;
+            font-size: 0.85rem;
+            background: #1a2133;
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid #313d60;
+            white-space: nowrap;
+        }
+
+        .split-panel {
+            display: flex;
+            flex: 1;
+            min-height: 0;  /* important for flex children to scroll */
+            flex-direction: row;
+            background: #111624;
+        }
+
+        .editor-pane {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            background: #1a2133;
+            border-right: 1px solid #2b3550;
+        }
+
+        .pane-header {
+            padding: 12px 18px;
+            background: #1e263b;
+            color: #b1c6ff;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #2b3550;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pane-header i {
+            color: #4c9aff;
+        }
+
+        .textarea-code {
+            flex: 1;
+            background: #0f1422;
+            border: none;
+            padding: 22px 20px;
+            font-family: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e2e9ff;
+            resize: none;
+            outline: none;
+            caret-color: #6ca0ff;
+            overflow: auto;
+            white-space: pre;
+            tab-size: 2;
+        }
+
+        .textarea-code::placeholder {
+            color: #3f4b70;
+            font-style: italic;
+            font-family: 'Inter', monospace;
+        }
+
+        .viewer-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;  /* about:blank default white */
+        }
+
+        .viewer-header {
+            padding: 12px 18px;
+            background: #1e263b;
+            color: #b1c6ff;
+            font-weight: 500;
+            border-bottom: 1px solid #2b3550;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .blank-badge {
+            background: #2c3650;
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #b7c9ff;
+            border: 1px solid #4c5b88;
+            letter-spacing: 0.5px;
+        }
+
+        .blank-badge::before {
+            content: "🔲";
+            margin-right: 6px;
+            opacity: 0.9;
+        }
+
+        .viewer-frame {
+            flex: 1;
+            background: white;  /* about:blank background */
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        #previewFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;  /* ensures blank if empty */
+            display: block;
+        }
+
+        .footer-note {
+            background: #151b2b;
+            padding: 6px 18px;
+            font-size: 0.8rem;
+            color: #6e7fb0;
+            border-top: 1px solid #283153;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-note code {
+            background: #1e2640;
+            padding: 4px 10px;
+            border-radius: 30px;
+            color: #baceff;
+            border: 1px solid #33406a;
+        }
+
+        .footer-note a {
+            color: #99b0ff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="viewer-card">
+    <!-- toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <div class="badge">
+                <span>⚡</span> about:blank viewer
+            </div>
+            <div class="btn-group">
+                <button class="btn" id="runBtn" title="run HTML → refresh about:blank (Ctrl-Enter)">
+                    <span>▶</span> Run
+                </button>
+                <button class="btn btn-primary" id="newWindowBtn" title="opens current HTML in a real about:blank popup">
+                    <span>🪟</span> Open in about:blank
+                </button>
+                <button class="btn btn-clear" id="clearBtn" title="reset to blank page">
+                    <span>🗑️</span> Clear
+                </button>
+            </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="status" id="statusMsg">
+            ⚪ about:blank · live
+        </div>
+    </div>
+
+    <!-- main split: editor + viewer -->
+    <div class="split-panel">
+        <!-- editor pane -->
+        <div class="editor-pane">
+            <div class="pane-header">
+                <i>📝</i> HTML source · write anything
+            </div>
+            <textarea id="htmlSource" class="textarea-code" placeholder='Type HTML here … for example:
+
+<h1 style="color: #3060ff;">hello, about:blank!</h1>
+<p>write <strong>tags</strong> & see them instantly.</p>
+
+<script>
+  // JavaScript also works
+  document.body.style.background = "#f0f5ff";
+</script>'></textarea>
+        </div>
+
+        <!-- viewer pane - mimics about:blank with iframe -->
+        <div class="viewer-pane">
+            <div class="viewer-header">
+                <span>🔲</span> about:blank preview
+                <span class="blank-badge">about:blank</span>
+            </div>
+            <div class="viewer-frame">
+                <iframe id="previewFrame" name="previewFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- tiny footer / hints -->
+    <div class="footer-note">
+        <code>🔹 about:blank · isolated preview</code>
+        <span>⚡ new window opens a <strong>real about:blank</strong> page with your code</span>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // DOM elements
+        const htmlSource = document.getElementById('htmlSource');
+        const previewFrame = document.getElementById('previewFrame');
+        const runBtn = document.getElementById('runBtn');
+        const newWindowBtn = document.getElementById('newWindowBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // helper to write content into the iframe (about:blank)
+        function updatePreview(content) {
+            const frameDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            frameDoc.open();
+            frameDoc.write(content || '<!DOCTYPE html><html><head><title>about:blank</title></head><body style="background: white; font-family: system-ui; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin:0; color: #0b1f35;"><span style="border: 2px dashed #a0b8e0; padding: 1.2rem 2rem; border-radius: 60px; background: #f5f9ff;">✨ about:blank · content ready</span></body></html>');
+            frameDoc.close();
+        }
+
+        // initial default (show friendly blank)
+        const defaultBlankHTML = '<!DOCTYPE html><html><head><title>about:blank</title><style>body { background: white; font-family: "Segoe UI", system-ui; margin:0; min-height:100vh; display: flex; align-items: center; justify-content: center; } .message { background: #f3f6fc; padding: 2rem 3rem; border-radius: 60px; color: #102a4c; border: 2px solid #b5d0ff; box-shadow: 0 15px 30px #ccd9f0; }</style></head><body><div class="message">🕊️ about:blank · ready to render HTML</div></body></html>';
+        htmlSource.value = `<!-- write any HTML here and press Run — it will appear in the about:blank frame -->
+<h1 style="color: #1f4fcf;">👋 hello, about:blank</h1>
+<p>You can use <script>console.log('inside about:blank')</script> and styles.</p>
+<button onclick="this.innerText='clicked!'" style="background:#3060ff; color:white; border: none; padding: 8px 20px; border-radius: 40px;">interactive</button>
+<hr>
+<small>... then click <strong>Open in about:blank</strong> to pop a dedicated window</small>`;
+
+        // set initial preview
+        updatePreview(defaultBlankHTML);
+
+        // status updater
+        function setStatus(ok, msg) {
+            statusMsg.innerHTML = msg;
+            statusMsg.style.color = ok ? '#b1ffcd' : '#ffb4b4';
+            setTimeout(() => {
+                statusMsg.style.color = '#7f8bb3';
+                statusMsg.innerHTML = '⚪ about:blank · live';
+            }, 800);
+        }
+
+        // run: push editor content to about:blank iframe
+        function runToIframe() {
+            let code = htmlSource.value;
+            // if completely empty, show minimal blank page
+            if (!code.trim()) {
+                code = '<!DOCTYPE html><html><head><title>blank</title></head><body style="background:#fafaff; display: flex; align-items:center; justify-content:center; margin:0; min-height:100vh; font-family: monospace;">⬜ about:blank (empty)</body></html>';
+            }
+            try {
+                updatePreview(code);
+                setStatus(true, '✅ preview updated · about:blank');
+            } catch (e) {
+                setStatus(false, '⚠️ error rendering — check console');
+                console.warn('iframe write error', e);
+            }
+        }
+
+        // open a brand new about:blank window and write the HTML there
+        function openInAboutBlank() {
+            const code = htmlSource.value || '<!DOCTYPE html><html><head><title>about:blank</title></head><body style="background: white; font-size: 2rem;">🧾 about:blank (custom)</body></html>';
+            // create a new about:blank window
+            const newWin = window.open('about:blank', '_blank', 'width=900,height=650,left=200,top=100,scrollbars=yes,resizable=yes');
+            if (!newWin) {
+                alert('Popup blocked? Please allow popups for this page.');
+                setStatus(false, '⛔ popup blocked');
+                return;
+            }
+            // wait a tick for document to be ready
+            setTimeout(() => {
+                try {
+                    const doc = newWin.document;
+                    doc.open();
+                    doc.write(code);
+                    doc.close();
+                    setStatus(true, '✨ new about:blank window opened');
+                } catch (err) {
+                    setStatus(false, '⚠️ could not write to new window');
+                    console.error('popup write error', err);
+                }
+            }, 30);
+        }
+
+        // clear: reset iframe to default blank, empty editor optionally.
+        function clearToBlank() {
+            htmlSource.value = '';   // empty
+            updatePreview('<!DOCTYPE html><html><head><title>about:blank</title><style>body { background: #ffffff; margin:0; display: flex; align-items:center; justify-content:center; min-height:100vh; font-family: system-ui; color:#1e293b; }</style></head><body>🌕 about:blank · cleared</body></html>');
+            setStatus(true, '🗂️ reset to about:blank');
+        }
+
+        // event listeners
+        runBtn.addEventListener('click', runToIframe);
+        newWindowBtn.addEventListener('click', openInAboutBlank);
+        clearBtn.addEventListener('click', clearToBlank);
+
+        // Ctrl+Enter (or Cmd+Enter) run
+        htmlSource.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                runToIframe();
+            }
+        });
+
+        // for convenience, run on startup? no, default content is fine.
+        // but we do want the iframe to show the default example? Wait: default iframe set to friendly defaultBlankHTML.
+        // But the editor contains example. So we might call runToIframe once to sync them? let's sync.
+        // That way the iframe shows the example we see in editor, not the default message.
+        window.addEventListener('load', () => {
+            // iframe currently shows defaultBlankHTML. We prefer to show the example inside editor.
+            // so run it once.
+            runToIframe();
+        });
+    })();
+</script>
+</body>
+</html>
