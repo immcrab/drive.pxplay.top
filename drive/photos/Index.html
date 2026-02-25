@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORB COLLECTOR · simple fun clicker</title>
+    <title>🌌 NEBULA COLLECTOR — addicting arcade</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,361 +12,508 @@
         body {
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(145deg, #1a2639 0%, #2e3b4e 100%);
+            background: linear-gradient(145deg, #0a0f1e 0%, #141b33 100%);
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            padding: 16px;
-        }
-        .game-container {
-            background: rgba(13, 20, 32, 0.75);
-            backdrop-filter: blur(6px);
-            border-radius: 48px;
-            padding: 28px 24px 32px 24px;
-            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 215, 150, 0.2);
-            max-width: 600px;
-            width: fit-content;
-        }
-        h1 {
-            margin: 0 0 12px 0;
-            font-weight: 600;
-            font-size: 2.3rem;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, #f9e0a0, #ffb347, #ff7e5f);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 15px #ff9f4d80;
-            display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 8px;
+            font-family: 'Segoe UI', system-ui, monospace;
+            padding: 12px;
         }
-        .score-panel {
-            background: #0e1a26;
-            border-radius: 100px;
-            padding: 10px 24px;
-            box-shadow: inset 0 3px 8px #00000055, 0 8px 0 #0b121c;
-            border-bottom: 2px solid #fdbf6b;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 22px;
-            color: #ffdead;
-        }
-        .score-panel span {
-            font-size: 1.9rem;
-            font-weight: 700;
-            color: #ffd78c;
-            text-shadow: 0 3px 0 #7f4f24;
-            margin-left: auto;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
-        }
-        .orb-area {
-            background: #1d2b3f;
-            border-radius: 64px;
-            padding: 30px 20px 20px 20px;
-            margin-bottom: 18px;
-            border: 3px solid #4d5f72;
-            box-shadow: inset 0 -6px 0 #0f1a24, 0 15px 20px #00000055;
-        }
-        .big-orb {
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 20px auto;
-            background: radial-gradient(circle at 30% 30%, #fff9e6, #ffb347);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.2rem;
-            font-weight: bold;
-            color: #32281c;
-            text-shadow: 2px 4px 0 #ffc107;
-            box-shadow: 0 20px 25px -5px black, 0 0 0 6px #cc9f5f, 0 0 0 12px #7d5f3a4d;
-            transition: transform 0.08s ease, box-shadow 0.15s;
-            cursor: pointer;
-            border: 2px solid #ffe1a4;
-            user-select: none;
-        }
-        .big-orb:active {
-            transform: scale(0.94);
-            box-shadow: 0 8px 15px -3px black, 0 0 0 6px #fdba4a, 0 0 0 12px #f6b83e33;
-        }
-        .upgrades {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: center;
-            margin: 28px 0 18px;
-        }
-        .card {
-            background: #1f2d40;
-            border-radius: 38px;
-            padding: 16px 18px;
-            flex: 1 1 150px;
-            min-width: 140px;
-            border: 2px solid #556b82;
-            box-shadow: 0 10px 0 #0f1a27, inset 0 2px 8px #b6d0e6aa;
-            transition: all 0.08s linear;
-            color: #efdeb5;
-        }
-        .card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px dashed #9e7f5e;
-            padding-bottom: 6px;
-        }
-        .card p {
-            margin: 10px 0 8px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            background: #0f1925;
-            padding: 8px 12px;
-            border-radius: 60px;
-            text-align: center;
-            box-shadow: inset 0 2px 3px #00000077;
-            color: #fee2aa;
-        }
-        .card button {
-            width: 100%;
-            background: #fea63d;
-            border: none;
-            border-radius: 60px;
-            padding: 12px 4px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #1d2a17;
-            text-shadow: 0 1px 0 #ffdbb5;
-            box-shadow: 0 7px 0 #8f511e, 0 4px 12px gold;
-            cursor: pointer;
-            transition: 0.06s linear;
-            border: 1px solid #ffe09c;
-            letter-spacing: 1px;
-        }
-        .card button:active {
-            transform: translateY(5px);
-            box-shadow: 0 2px 0 #8f511e, 0 6px 12px #e5b055;
-        }
-        .card button:disabled {
-            opacity: 0.45;
-            transform: translateY(4px);
-            box-shadow: 0 3px 0 #5d3b1b;
-            pointer-events: none;
-            filter: grayscale(0.5);
-        }
-        .reset-area {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 12px;
-        }
-        .reset-btn {
-            background: none;
-            border: 2px solid #a77b4d;
-            border-radius: 60px;
-            padding: 10px 28px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #fcdab0;
-            box-shadow: 0 5px 0 #3f2e1b;
-            cursor: pointer;
-            background: #2c3f55;
-            transition: 0.07s;
+        .game-wrapper {
+            background: rgba(10, 18, 30, 0.8);
             backdrop-filter: blur(4px);
+            border-radius: 3rem 3rem 2rem 2rem;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.7), 0 0 0 2px #5f7fbf22, 0 0 20px #3f6ac0;
+            padding: 28px 28px 35px;
         }
-        .reset-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 1px 0 #3f2e1b;
+        canvas {
+            display: block;
+            width: 720px;
+            height: 480px;
+            border-radius: 28px;
+            background: #0b1120;
+            box-shadow: inset 0 0 60px #03050a, 0 20px 25px black;
+            cursor: none;
+            margin-bottom: 10px;
+            border: 2px solid #4f6e9b;
         }
-        .footer-text {
-            color: #ba9f80;
-            text-align: center;
-            margin-top: 16px;
-            font-style: italic;
-            font-size: 1rem;
-            letter-spacing: 1px;
-        }
-        .glow-text {
-            background: #2a3c4e;
-            border-radius: 40px;
-            padding: 6px 18px;
+        .stats-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #edf5fe;
+            text-shadow: 0 0 8px #8ab3ff;
             font-weight: 600;
+            background: #101b2bb0;
+            padding: 16px 30px;
+            border-radius: 60px;
+            border: 1px solid #46699e;
+            backdrop-filter: blur(5px);
+            margin-top: 6px;
+            font-size: 1.35rem;
+            letter-spacing: 0.5px;
+        }
+        .score-board {
+            background: #1e2d48;
+            padding: 10px 28px;
+            border-radius: 40px;
+            box-shadow: inset 0 -3px 0 #091020, 0 6px 12px #00000060;
+            display: flex;
+            gap: 40px;
+        }
+        .score-board span {
+            color: #f6e3b0;
+            font-weight: 700;
+            font-size: 1.9rem;
+            min-width: 4rem;
+            text-align: right;
+            text-shadow: 0 0 12px #ffcf8a;
+        }
+        button {
+            background: #f5c542;
+            border: none;
+            color: #141b2b;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 12px 32px;
+            border-radius: 40px;
+            letter-spacing: 1px;
+            box-shadow: 0 7px 0 #9e6d1f, 0 10px 20px black;
+            transition: 0.07s ease;
+            cursor: pointer;
+            font-family: inherit;
+            border: 1px solid #ffdf91;
+        }
+        button:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #9e6d1f, 0 8px 16px black;
+        }
+        .tip {
+            color: #b6cbe8;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 1.1rem;
+            font-weight: 400;
+            background: #0d1627b0;
+            padding: 5px 20px;
+            border-radius: 60px;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+            width: fit-content;
+            border: 1px solid #3b5580;
+        }
+        .tip i {
+            font-style: normal;
+            color: #ffcf7a;
+            font-weight: 600;
+        }
+        .footer {
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
-<div class="game-container">
-    <h1>✨ ORB COLLECTOR ✨</h1>
+<div class="game-wrapper">
+    <canvas id="gameCanvas" width="720" height="480"></canvas>
 
-    <!-- score panel -->
-    <div class="score-panel">
-        <span>🔮</span>
-        <span id="orbCount">0</span>
-    </div>
-
-    <!-- main clickable orb area -->
-    <div class="orb-area">
-        <div class="big-orb" id="clickOrb">⚡</div>
-        <div style="display: flex; justify-content: space-between; color: #c3b28a; padding: 0 12px; font-weight: 500;">
-            <span>＋<span id="clickValue">1</span> per tap</span>
-            <span>auto‧<span id="autoValue">0</span>/s</span>
+    <div class="stats-panel">
+        <div class="score-board">
+            <span>🔵</span>
+            <span id="scoreDisplay">0</span>
+        </div>
+        <div class="score-board">
+            <span>⏳</span>
+            <span id="timerDisplay">30</span>
         </div>
     </div>
 
-    <!-- upgrade row -->
-    <div class="upgrades">
-        <!-- click power upgrade -->
-        <div class="card">
-            <h3>🖱️ <span>CLICK</span></h3>
-            <p id="clickUpgradeCost">cost: 10</p>
-            <button id="buyClickUpgrade">UPGRADE</button>
-        </div>
-        <!-- auto collector upgrade -->
-        <div class="card">
-            <h3>⏳ <span>AUTO</span></h3>
-            <p id="autoUpgradeCost">cost: 25</p>
-            <button id="buyAutoUpgrade">GET ORB/S</button>
-        </div>
+    <div class="footer">
+        <button id="restartBtn">🔄  new orbit</button>
     </div>
-
-    <!-- reset + small stats -->
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="glow-text">⚡ lvl <span id="clickLevel">1</span>  |  ⌛ <span id="autoLevel">0</span></div>
-        <div class="reset-area">
-            <button class="reset-btn" id="resetGame">↺ restart</button>
-        </div>
+    <div class="tip">
+        <i>⬆️⬇️⬅️➡️</i>  move gravity well · catch blue sparks before they fade · <i>+1s</i> per catch
     </div>
-    <div class="footer-text">— tap the big orb, buy upgrades, feel the shine —</div>
 </div>
 
 <script>
     (function() {
-        // --- GAME STATE ---
-        let orbs = 50;               // starting with 50 orbs for immediate fun (can buy upgrade quickly)
-        let clickMultiplier = 1;      // orbs per click
-        let autoOrbsPerSecond = 0;    // auto income
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreSpan = document.getElementById('scoreDisplay');
+        const timerSpan = document.getElementById('timerDisplay');
+        const restartBtn = document.getElementById('restartBtn');
 
-        let clickUpgradeLevel = 1;     // for display (clickMultiplier = level)
-        let autoUpgradeLevel = 0;      // for display (autoOrbsPerSecond = level)
+        // ---------- dimensions ----------
+        const W = 720, H = 480;
 
-        // Base costs (will scale)
-        const BASE_CLICK_COST = 10;
-        const BASE_AUTO_COST = 25;
+        // ---------- game state ----------
+        let gameActive = false;         // true only during countdown >0 and playing
+        let score = 0;
+        let timeLeft = 30;              // seconds (starts after reset)
+        let frameInterval;               // handle for setInterval
+        let animationFrame;              // handle for requestAnimationFrame
 
-        // DOM references
-        const orbSpan = document.getElementById('orbCount');
-        const clickOrb = document.getElementById('clickOrb');
-        const clickValueSpan = document.getElementById('clickValue');
-        const autoValueSpan = document.getElementById('autoValue');
+        // ---------- particles (blue sparks) ----------
+        let particles = [];
+        const MAX_PARTICLES = 32;        // balanced for addicting chaos
+        const PARTICLE_RADIUS = 12;       // visual size, hit radius = 16 for easier catch
 
-        const clickCostSpan = document.getElementById('clickUpgradeCost');
-        const autoCostSpan = document.getElementById('autoUpgradeCost');
+        // ---------- gravity well (player) ----------
+        let well = { x: W/2, y: H/2 };
+        const WELL_RADIUS = 32;           // attraction & catch radius
+        const WELL_PULL_STRENGTH = 0.23;   // per frame smooth movement toward well
 
-        const clickLevelSpan = document.getElementById('clickLevel');
-        const autoLevelSpan = document.getElementById('autoLevel');
+        // ---------- movement flags ----------
+        const keys = {
+            ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false
+        };
 
-        const buyClickBtn = document.getElementById('buyClickUpgrade');
-        const buyAutoBtn = document.getElementById('buyAutoUpgrade');
-        const resetBtn = document.getElementById('resetGame');
-
-        // Helper: update all UI
-        function refreshUI() {
-            orbSpan.innerText = orbs;
-
-            // upgrade costs (scaling)
-            let clickCost = Math.floor(BASE_CLICK_COST * Math.pow(1.6, clickUpgradeLevel - 1));
-            let autoCost = Math.floor(BASE_AUTO_COST * Math.pow(1.7, autoUpgradeLevel));
-
-            clickCostSpan.innerText = `cost: ${clickCost}`;
-            autoCostSpan.innerText = `cost: ${autoCost}`;
-
-            // enable/disable buttons based on orbs
-            buyClickBtn.disabled = (orbs < clickCost);
-            buyAutoBtn.disabled = (orbs < autoCost);
-
-            // update stats
-            clickValueSpan.innerText = clickMultiplier;
-            autoValueSpan.innerText = autoOrbsPerSecond;
-            clickLevelSpan.innerText = clickUpgradeLevel;
-            autoLevelSpan.innerText = autoUpgradeLevel;
+        // ---------- helpers ----------
+        function updateDisplay() {
+            scoreSpan.innerText = score;
+            timerSpan.innerText = Math.max(0, Math.ceil(timeLeft * 10) / 10).toFixed(1);
         }
 
-        // --- core game actions ---
-        function addOrbs(amount) {
-            orbs += amount;
-            if (orbs < 0) orbs = 0;  // just in case, but we never go negative
-            refreshUI();
-        }
-
-        // Click on the big orb
-        function handleOrbClick() {
-            addOrbs(clickMultiplier);
-            // tiny haptic feedback (just visual)
-            clickOrb.style.transform = 'scale(0.95)';
-            setTimeout(() => clickOrb.style.transform = '', 80);
-        }
-
-        // Buy click upgrade
-        function buyClickUpgrade() {
-            let cost = Math.floor(BASE_CLICK_COST * Math.pow(1.6, clickUpgradeLevel - 1));
-            if (orbs < cost) return;
-
-            orbs -= cost;
-            clickUpgradeLevel++;
-            clickMultiplier = clickUpgradeLevel;  // 1→2→3...
-            refreshUI();
-        }
-
-        // Buy auto upgrade
-        function buyAutoUpgrade() {
-            let cost = Math.floor(BASE_AUTO_COST * Math.pow(1.7, autoUpgradeLevel));
-            if (orbs < cost) return;
-
-            orbs -= cost;
-            autoUpgradeLevel++;
-            autoOrbsPerSecond = autoUpgradeLevel;   // 1 orb/s per level
-            refreshUI();
-        }
-
-        // Reset everything
+        // ---------- reset / new game ----------
         function resetGame() {
-            orbs = 50;                           // generous start, so it's immediately fun
-            clickMultiplier = 1;
-            autoOrbsPerSecond = 0;
-            clickUpgradeLevel = 1;
-            autoUpgradeLevel = 0;
-            refreshUI();
+            // stop old loops
+            if (frameInterval) clearInterval(frameInterval);
+            if (animationFrame) cancelAnimationFrame(animationFrame);
+
+            gameActive = true;
+            score = 0;
+            timeLeft = 30.0;
+            particles = [];
+            well.x = W/2;
+            well.y = H/2;
+
+            // fill with some initial sparks (makes restart instantly juicy)
+            for (let i = 0; i < 14; i++) {
+                spawnParticle(true); // force even if "full" (we just cleared)
+            }
+
+            updateDisplay();
+
+            // ----- timer interval (decrease time) -----
+            frameInterval = setInterval(() => {
+                if (!gameActive) return;          // game over or paused
+
+                timeLeft -= 0.1;                   // decrease by 0.1 sec (smooth)
+                if (timeLeft <= 0) {
+                    timeLeft = 0;
+                    gameActive = false;             // game over
+                }
+                updateDisplay();
+
+                // spawn a new particle occasionally (even more fun)
+                if (gameActive && particles.length < MAX_PARTICLES + 5 && Math.random() < 0.35) {
+                    spawnParticle();
+                }
+            }, 100); // 100ms = 0.1s
+
+            // start animation loop
+            function gameLoop() {
+                updateMovementAndWell();
+                if (gameActive) {
+                    updateParticlesAndCollision();
+                }
+                drawCanvas();
+                animationFrame = requestAnimationFrame(gameLoop);
+            }
+            animationFrame = requestAnimationFrame(gameLoop);
         }
 
-        // --- auto income interval (every 1 second) ---
-        setInterval(() => {
-            if (autoOrbsPerSecond > 0) {
-                addOrbs(autoOrbsPerSecond);
+        // spawn a blue spark with random position (away from well bias? but fair)
+        function spawnParticle(ignoreLimit = false) {
+            if (!ignoreLimit && particles.length >= MAX_PARTICLES + 8) return; // soft limit
+            const radius = PARTICLE_RADIUS;
+            // random edge spawn (more dynamic)
+            let x, y;
+            if (Math.random() < 0.5) {
+                // left or right edge
+                x = Math.random() < 0.5 ? 10 : W - 10;
+                y = 20 + Math.random() * (H - 40);
+            } else {
+                // top or bottom edge
+                y = Math.random() < 0.5 ? 10 : H - 10;
+                x = 20 + Math.random() * (W - 40);
             }
-        }, 1000);
+            // but ensure inside canvas with margin
+            x = Math.min(W - 15, Math.max(15, x));
+            y = Math.min(H - 15, Math.max(15, y));
 
-        // --- attach event listeners ---
-        clickOrb.addEventListener('click', handleOrbClick);
-        buyClickBtn.addEventListener('click', buyClickUpgrade);
-        buyAutoBtn.addEventListener('click', buyAutoUpgrade);
-        resetBtn.addEventListener('click', resetGame);
+            // random lifespan between 1.2s and 2.5s (fun & tension)
+            const life = 1.2 + Math.random() * 1.3; // seconds
+            particles.push({
+                x, y,
+                life,          // total life
+                maxLife: life,
+                vx: (Math.random() - 0.5) * 0.7,   // tiny drift (makes it less static)
+                vy: (Math.random() - 0.5) * 0.7,
+            });
+        }
 
-        // initial render
-        refreshUI();
+        // move well with arrow keys (smooth)
+        function updateMovementAndWell() {
+            if (!gameActive) return; // you can move well even after game over? but disabled, makes more sense to freeze
+            // but we allow move in game over? better freeze to see failure
+            if (gameActive) {
+                let moveX = 0, moveY = 0;
+                if (keys.ArrowUp) moveY -= 6;
+                if (keys.ArrowDown) moveY += 6;
+                if (keys.ArrowLeft) moveX -= 6;
+                if (keys.ArrowRight) moveX += 6;
 
-        // (Optional) keyboard support: press "c" for click (just for fun)
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'c' || e.key === 'C') {
+                if (moveX !== 0 || moveY !== 0) {
+                    well.x = Math.min(W - WELL_RADIUS, Math.max(WELL_RADIUS, well.x + moveX));
+                    well.y = Math.min(H - WELL_RADIUS, Math.max(WELL_RADIUS, well.y + moveY));
+                }
+            }
+        }
+
+        // particle attraction, catch & lifetime decay
+        function updateParticlesAndCollision() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+
+                // gravity toward well (fun & addicting: sparks swirl to you)
+                const dx = well.x - p.x;
+                const dy = well.y - p.y;
+                const dist = Math.hypot(dx, dy);
+                if (dist > 0.5) {
+                    const pull = WELL_PULL_STRENGTH * (1 - Math.min(1, dist / 150)); // stronger when close
+                    p.vx += (dx / dist) * pull * 0.7;
+                    p.vy += (dy / dist) * pull * 0.7;
+                }
+
+                // apply velocity & damp a bit (so they don't oscillate like crazy)
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= 0.99;
+                p.vy *= 0.99;
+
+                // keep inside (soft boundary reflect, adds liveliness)
+                if (p.x < 8) { p.x = 8; p.vx *= -0.4; }
+                if (p.x > W - 8) { p.x = W - 8; p.vx *= -0.4; }
+                if (p.y < 8) { p.y = 8; p.vy *= -0.4; }
+                if (p.y > H - 8) { p.y = H - 8; p.vy *= -0.4; }
+
+                // reduce life based on time (1 sec per sec) — interval calls 0.1s, so multiply factor
+                // but easier: decrease life by 0.1 per frame? no, frame rate varies. but we use fixed interval for life?
+                // since gameLoop runs at ~60fps, we need delta time? but we keep simple: life reduced by fixed step per frame.
+                // Better: tie life reduction to real time: use timestamp? but simpler: fixed per frame * (1/60)?? messy.
+                // use interval for time, and for particle life we reduce on each animation frame ~0.016s, but that varies.
+                // let's do constant per frame: consistent with difficulty, but faster pc = faster death. NOT good.
+                // Solution: reduce life by a fixed small amount per frame & calibrate. 60fps => each frame ~0.0167s.
+                // target lifespan in seconds: 1.2-2.5s. So per frame reduce life by 0.016.
+                p.life -= 0.016;  // 0.016 ≈ 1/60
+
+                // ----- catch condition (well collision) -----
+                const catchDist = Math.hypot(well.x - p.x, well.y - p.y);
+                if (catchDist < WELL_RADIUS + 10) { // generous catch
+                    // award second & increase score
+                    if (gameActive) {
+                        score++;
+                        timeLeft += 0.8; // massive reward, but capped?
+                        if (timeLeft > 55) timeLeft = 55; // prevent infinity, but high scores are fun
+                        updateDisplay();
+
+                        // remove particle and spawn a new one instantly (makes it feel responsive)
+                        particles.splice(i, 1);
+                        if (gameActive && particles.length < MAX_PARTICLES + 6) {
+                            spawnParticle();
+                        }
+                    } else {
+                        // game not active, just remove without reward
+                        particles.splice(i, 1);
+                    }
+                    continue;
+                }
+
+                // remove if life expired
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                    // maybe spawn a fresh one to keep flow
+                    if (gameActive && particles.length < MAX_PARTICLES + 4) {
+                        spawnParticle();
+                    }
+                }
+            }
+
+            // occasionally spawn new to keep pressure
+            if (gameActive && particles.length < MAX_PARTICLES && Math.random() < 0.08) {
+                spawnParticle();
+            }
+        }
+
+        // ---------- drawing (juicy) ----------
+        function drawCanvas() {
+            ctx.clearRect(0, 0, W, H);
+
+            // starfield background (twinkling)
+            ctx.fillStyle = "#ffffffee";
+            for (let i = 0; i < 100; i++) {
+                if (i % 2 === 0) continue; // lazy random
+                let sx = (i * 23) % W, sy = (i * 13) % H;
+                ctx.globalAlpha = 0.6 + 0.4 * Math.sin(Date.now() * 0.002 + i);
+                ctx.beginPath();
+                ctx.arc(sx, sy, 1 + i % 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+
+            // draw particles (sparks) with glow & life intensity
+            for (let p of particles) {
+                const lifeRatio = Math.max(0, p.life / p.maxLife);
+                const size = PARTICLE_RADIUS * (0.6 + 0.4 * lifeRatio);
+                const opacity = Math.min(1, lifeRatio * 1.2);
+
+                // outer glow
+                ctx.shadowColor = '#9fc9ff';
+                ctx.shadowBlur = 18;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, size * 0.9, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgba(200, 230, 255, ${opacity*0.5})`;
+                ctx.fill();
+
+                ctx.shadowBlur = 25;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, size * 0.6, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgba(140, 210, 255, ${opacity})`;
+                ctx.fill();
+
+                // core
+                ctx.shadowBlur = 20;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, size * 0.35, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgba(255, 255, 245, ${opacity})`;
+                ctx.fill();
+
+                // tiny highlight
+                ctx.shadowBlur = 0;
+                ctx.beginPath();
+                ctx.arc(p.x-2, p.y-2, size*0.1, 0, 2*Math.PI);
+                ctx.fillStyle = "#ffffff";
+                ctx.fill();
+            }
+
+            // draw gravity well (player) — hypnotic
+            ctx.shadowColor = '#7aaaff';
+            ctx.shadowBlur = 40;
+            ctx.beginPath();
+            ctx.arc(well.x, well.y, WELL_RADIUS+4, 0, 2*Math.PI);
+            ctx.fillStyle = '#3769c5aa';
+            ctx.fill();
+
+            ctx.shadowBlur = 50;
+            ctx.beginPath();
+            ctx.arc(well.x, well.y, WELL_RADIUS-2, 0, 2*Math.PI);
+            ctx.fillStyle = '#9bc3ffcc';
+            ctx.fill();
+
+            ctx.shadowBlur = 30;
+            ctx.beginPath();
+            ctx.arc(well.x, well.y, WELL_RADIUS-10, 0, 2*Math.PI);
+            ctx.fillStyle = '#d4e6ff';
+            ctx.fill();
+
+            // inner core
+            ctx.shadowBlur = 20;
+            ctx.beginPath();
+            ctx.arc(well.x, well.y, 10, 0, 2*Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+
+            // reset shadow
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
+
+            // draw game over message if inactive
+            if (!gameActive && timeLeft <= 0) {
+                ctx.font = 'bold 44px "Segoe UI", "Arial", sans-serif';
+                ctx.fillStyle = '#ffecaa';
+                ctx.shadowColor = '#ff7b7b';
+                ctx.shadowBlur = 18;
+                ctx.fillText('⏱️ FINISHED', 160, 260);
+                ctx.shadowBlur = 0;
+            } else if (!gameActive && timeLeft > 0) {
+                // paused state? not used.
+            }
+
+            // show particle count (optional but hidden)
+        }
+
+        // ---------- keyboard ----------
+        function handleKeyDown(e) {
+            const key = e.key;
+            if (key.startsWith('Arrow')) {
                 e.preventDefault();
-                handleOrbClick();
+                if (keys.hasOwnProperty(key)) {
+                    keys[key] = true;
+                }
             }
+        }
+
+        function handleKeyUp(e) {
+            const key = e.key;
+            if (key.startsWith('Arrow')) {
+                e.preventDefault();
+                if (keys.hasOwnProperty(key)) {
+                    keys[key] = false;
+                }
+            }
+        }
+
+        // block page scrolling with arrows
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+
+        // restart button
+        restartBtn.addEventListener('click', () => {
+            resetGame();
         });
+
+        // initial reset
+        resetGame();
+
+        // (optional) mouse move for well? but we want keyboard, but add mouse as extra fun?
+        // adding mouse makes it even more addicting – but we keep keyboard pure, but optional? let's add
+        canvas.addEventListener('mousemove', (e) => {
+            if (!gameActive) return;
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let mouseX = (e.clientX - rect.left) * scaleX;
+            let mouseY = (e.clientY - rect.top) * scaleY;
+            // confine
+            mouseX = Math.min(W - WELL_RADIUS, Math.max(WELL_RADIUS, mouseX));
+            mouseY = Math.min(H - WELL_RADIUS, Math.max(WELL_RADIUS, mouseY));
+            well.x = mouseX;
+            well.y = mouseY;
+        });
+
+        // also touch move for mobile? (optional)
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!gameActive || !e.touches[0]) return;
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let touchX = (touch.clientX - rect.left) * scaleX;
+            let touchY = (touch.clientY - rect.top) * scaleY;
+            touchX = Math.min(W - WELL_RADIUS, Math.max(WELL_RADIUS, touchX));
+            touchY = Math.min(H - WELL_RADIUS, Math.max(WELL_RADIUS, touchY));
+            well.x = touchX;
+            well.y = touchY;
+        }, { passive: false });
+
+        canvas.addEventListener('touchstart', (e) => e.preventDefault());
+
+        // prevent context menu on canvas
+        canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     })();
 </script>
 </body>
