@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORB COLLECTOR · simple fun clicker</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #1a2639 0%, #2e3b4e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 16px;
+        }
+        .game-container {
+            background: rgba(13, 20, 32, 0.75);
+            backdrop-filter: blur(6px);
+            border-radius: 48px;
+            padding: 28px 24px 32px 24px;
+            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 215, 150, 0.2);
+            max-width: 600px;
+            width: fit-content;
+        }
+        h1 {
+            margin: 0 0 12px 0;
+            font-weight: 600;
+            font-size: 2.3rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #f9e0a0, #ffb347, #ff7e5f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px #ff9f4d80;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+        }
+        .score-panel {
+            background: #0e1a26;
+            border-radius: 100px;
+            padding: 10px 24px;
+            box-shadow: inset 0 3px 8px #00000055, 0 8px 0 #0b121c;
+            border-bottom: 2px solid #fdbf6b;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+            color: #ffdead;
+        }
+        .score-panel span {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #ffd78c;
+            text-shadow: 0 3px 0 #7f4f24;
+            margin-left: auto;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+        .orb-area {
+            background: #1d2b3f;
+            border-radius: 64px;
+            padding: 30px 20px 20px 20px;
+            margin-bottom: 18px;
+            border: 3px solid #4d5f72;
+            box-shadow: inset 0 -6px 0 #0f1a24, 0 15px 20px #00000055;
+        }
+        .big-orb {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 20px auto;
+            background: radial-gradient(circle at 30% 30%, #fff9e6, #ffb347);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            font-weight: bold;
+            color: #32281c;
+            text-shadow: 2px 4px 0 #ffc107;
+            box-shadow: 0 20px 25px -5px black, 0 0 0 6px #cc9f5f, 0 0 0 12px #7d5f3a4d;
+            transition: transform 0.08s ease, box-shadow 0.15s;
+            cursor: pointer;
+            border: 2px solid #ffe1a4;
+            user-select: none;
+        }
+        .big-orb:active {
+            transform: scale(0.94);
+            box-shadow: 0 8px 15px -3px black, 0 0 0 6px #fdba4a, 0 0 0 12px #f6b83e33;
+        }
+        .upgrades {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin: 28px 0 18px;
+        }
+        .card {
+            background: #1f2d40;
+            border-radius: 38px;
+            padding: 16px 18px;
+            flex: 1 1 150px;
+            min-width: 140px;
+            border: 2px solid #556b82;
+            box-shadow: 0 10px 0 #0f1a27, inset 0 2px 8px #b6d0e6aa;
+            transition: all 0.08s linear;
+            color: #efdeb5;
+        }
+        .card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px dashed #9e7f5e;
+            padding-bottom: 6px;
+        }
+        .card p {
+            margin: 10px 0 8px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            background: #0f1925;
+            padding: 8px 12px;
+            border-radius: 60px;
+            text-align: center;
+            box-shadow: inset 0 2px 3px #00000077;
+            color: #fee2aa;
+        }
+        .card button {
+            width: 100%;
+            background: #fea63d;
+            border: none;
+            border-radius: 60px;
+            padding: 12px 4px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1d2a17;
+            text-shadow: 0 1px 0 #ffdbb5;
+            box-shadow: 0 7px 0 #8f511e, 0 4px 12px gold;
+            cursor: pointer;
+            transition: 0.06s linear;
+            border: 1px solid #ffe09c;
+            letter-spacing: 1px;
+        }
+        .card button:active {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 #8f511e, 0 6px 12px #e5b055;
+        }
+        .card button:disabled {
+            opacity: 0.45;
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 #5d3b1b;
+            pointer-events: none;
+            filter: grayscale(0.5);
+        }
+        .reset-area {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+        .reset-btn {
+            background: none;
+            border: 2px solid #a77b4d;
+            border-radius: 60px;
+            padding: 10px 28px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fcdab0;
+            box-shadow: 0 5px 0 #3f2e1b;
+            cursor: pointer;
+            background: #2c3f55;
+            transition: 0.07s;
+            backdrop-filter: blur(4px);
+        }
+        .reset-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #3f2e1b;
+        }
+        .footer-text {
+            color: #ba9f80;
+            text-align: center;
+            margin-top: 16px;
+            font-style: italic;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+        .glow-text {
+            background: #2a3c4e;
+            border-radius: 40px;
+            padding: 6px 18px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <h1>✨ ORB COLLECTOR ✨</h1>
+
+    <!-- score panel -->
+    <div class="score-panel">
+        <span>🔮</span>
+        <span id="orbCount">0</span>
+    </div>
+
+    <!-- main clickable orb area -->
+    <div class="orb-area">
+        <div class="big-orb" id="clickOrb">⚡</div>
+        <div style="display: flex; justify-content: space-between; color: #c3b28a; padding: 0 12px; font-weight: 500;">
+            <span>＋<span id="clickValue">1</span> per tap</span>
+            <span>auto‧<span id="autoValue">0</span>/s</span>
+        </div>
+    </div>
+
+    <!-- upgrade row -->
+    <div class="upgrades">
+        <!-- click power upgrade -->
+        <div class="card">
+            <h3>🖱️ <span>CLICK</span></h3>
+            <p id="clickUpgradeCost">cost: 10</p>
+            <button id="buyClickUpgrade">UPGRADE</button>
+        </div>
+        <!-- auto collector upgrade -->
+        <div class="card">
+            <h3>⏳ <span>AUTO</span></h3>
+            <p id="autoUpgradeCost">cost: 25</p>
+            <button id="buyAutoUpgrade">GET ORB/S</button>
+        </div>
+    </div>
+
+    <!-- reset + small stats -->
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="glow-text">⚡ lvl <span id="clickLevel">1</span>  |  ⌛ <span id="autoLevel">0</span></div>
+        <div class="reset-area">
+            <button class="reset-btn" id="resetGame">↺ restart</button>
+        </div>
+    </div>
+    <div class="footer-text">— tap the big orb, buy upgrades, feel the shine —</div>
+</div>
+
+<script>
+    (function() {
+        // --- GAME STATE ---
+        let orbs = 50;               // starting with 50 orbs for immediate fun (can buy upgrade quickly)
+        let clickMultiplier = 1;      // orbs per click
+        let autoOrbsPerSecond = 0;    // auto income
+
+        let clickUpgradeLevel = 1;     // for display (clickMultiplier = level)
+        let autoUpgradeLevel = 0;      // for display (autoOrbsPerSecond = level)
+
+        // Base costs (will scale)
+        const BASE_CLICK_COST = 10;
+        const BASE_AUTO_COST = 25;
+
+        // DOM references
+        const orbSpan = document.getElementById('orbCount');
+        const clickOrb = document.getElementById('clickOrb');
+        const clickValueSpan = document.getElementById('clickValue');
+        const autoValueSpan = document.getElementById('autoValue');
+
+        const clickCostSpan = document.getElementById('clickUpgradeCost');
+        const autoCostSpan = document.getElementById('autoUpgradeCost');
+
+        const clickLevelSpan = document.getElementById('clickLevel');
+        const autoLevelSpan = document.getElementById('autoLevel');
+
+        const buyClickBtn = document.getElementById('buyClickUpgrade');
+        const buyAutoBtn = document.getElementById('buyAutoUpgrade');
+        const resetBtn = document.getElementById('resetGame');
+
+        // Helper: update all UI
+        function refreshUI() {
+            orbSpan.innerText = orbs;
+
+            // upgrade costs (scaling)
+            let clickCost = Math.floor(BASE_CLICK_COST * Math.pow(1.6, clickUpgradeLevel - 1));
+            let autoCost = Math.floor(BASE_AUTO_COST * Math.pow(1.7, autoUpgradeLevel));
+
+            clickCostSpan.innerText = `cost: ${clickCost}`;
+            autoCostSpan.innerText = `cost: ${autoCost}`;
+
+            // enable/disable buttons based on orbs
+            buyClickBtn.disabled = (orbs < clickCost);
+            buyAutoBtn.disabled = (orbs < autoCost);
+
+            // update stats
+            clickValueSpan.innerText = clickMultiplier;
+            autoValueSpan.innerText = autoOrbsPerSecond;
+            clickLevelSpan.innerText = clickUpgradeLevel;
+            autoLevelSpan.innerText = autoUpgradeLevel;
+        }
+
+        // --- core game actions ---
+        function addOrbs(amount) {
+            orbs += amount;
+            if (orbs < 0) orbs = 0;  // just in case, but we never go negative
+            refreshUI();
+        }
+
+        // Click on the big orb
+        function handleOrbClick() {
+            addOrbs(clickMultiplier);
+            // tiny haptic feedback (just visual)
+            clickOrb.style.transform = 'scale(0.95)';
+            setTimeout(() => clickOrb.style.transform = '', 80);
+        }
+
+        // Buy click upgrade
+        function buyClickUpgrade() {
+            let cost = Math.floor(BASE_CLICK_COST * Math.pow(1.6, clickUpgradeLevel - 1));
+            if (orbs < cost) return;
+
+            orbs -= cost;
+            clickUpgradeLevel++;
+            clickMultiplier = clickUpgradeLevel;  // 1→2→3...
+            refreshUI();
+        }
+
+        // Buy auto upgrade
+        function buyAutoUpgrade() {
+            let cost = Math.floor(BASE_AUTO_COST * Math.pow(1.7, autoUpgradeLevel));
+            if (orbs < cost) return;
+
+            orbs -= cost;
+            autoUpgradeLevel++;
+            autoOrbsPerSecond = autoUpgradeLevel;   // 1 orb/s per level
+            refreshUI();
+        }
+
+        // Reset everything
+        function resetGame() {
+            orbs = 50;                           // generous start, so it's immediately fun
+            clickMultiplier = 1;
+            autoOrbsPerSecond = 0;
+            clickUpgradeLevel = 1;
+            autoUpgradeLevel = 0;
+            refreshUI();
+        }
+
+        // --- auto income interval (every 1 second) ---
+        setInterval(() => {
+            if (autoOrbsPerSecond > 0) {
+                addOrbs(autoOrbsPerSecond);
+            }
+        }, 1000);
+
+        // --- attach event listeners ---
+        clickOrb.addEventListener('click', handleOrbClick);
+        buyClickBtn.addEventListener('click', buyClickUpgrade);
+        buyAutoBtn.addEventListener('click', buyAutoUpgrade);
+        resetBtn.addEventListener('click', resetGame);
+
+        // initial render
+        refreshUI();
+
+        // (Optional) keyboard support: press "c" for click (just for fun)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'c' || e.key === 'C') {
+                e.preventDefault();
+                handleOrbClick();
+            }
+        });
+    })();
+</script>
+</body>
+</html>
