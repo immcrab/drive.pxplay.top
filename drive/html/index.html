@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>minimal · about:blank renderer</title>
+    <style>
+        /* absolutely no fluff — just what's needed */
+        body {
+            margin: 20px;
+            background: #f4f7fb;
+            font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+        }
+        textarea {
+            width: 100%;
+            max-width: 900px;
+            height: 300px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            padding: 12px;
+            border: 1px solid #aaa;
+            background: white;
+            display: block;
+            margin-bottom: 16px;
+            white-space: pre;
+            tab-size: 2;
+        }
+        button {
+            background: #0a2f6c;
+            color: white;
+            border: none;
+            font-size: 18px;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        button:hover {
+            background: #124a9e;
+        }
+        .note {
+            margin-top: 20px;
+            color: #2c3e50;
+            background: #e6ecf5;
+            padding: 10px 16px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="margin-bottom: 12px;">📄 write HTML → open in about:blank</h2>
+    
+    <!-- big, simple code area -->
+    <textarea id="codeInput" placeholder="<!DOCTYPE html>
+<html>
+<head><title>my page</title></head>
+<body>
+  <h1>hello, about:blank!</h1>
+  <p>write any HTML, CSS, JavaScript here.</p>
+  <button onclick=&quot;alert('hi')&quot;>click me</button>
+</body>
+</html>"></textarea>
+
+    <br>
+    <!-- one button — exactly what you asked for -->
+    <button id="openBlankBtn">▶ OPEN IN ABOUT:BLANK</button>
+
+    <div class="note">
+        ⚡ click the button → new about:blank window with your code.
+    </div>
+
+    <script>
+        (function() {
+            const textarea = document.getElementById('codeInput');
+            const openBtn = document.getElementById('openBlankBtn');
+
+            // Default demo code (shows that everything works)
+            textarea.value = `<!DOCTYPE html>
+<html>
+<head>
+    <title>my blank page</title>
+    <style>
+        body {
+            background: #1e2b3a;
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui;
+            color: white;
+        }
+        .card {
+            background: #2f4055;
+            padding: 2rem 3rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 30px #0f1a24;
+            border: 1px solid #577ea3;
+            text-align: center;
+        }
+        h1 { color: #b3e4ff; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>✨ about:blank ✨</h1>
+        <p>you can put anything here — scripts, forms, divs.</p>
+        <button onclick="document.body.style.background='#2b5835'">dark green</button>
+        <button onclick="window.close()">close this window</button>
+    </div>
+</body>
+</html>`;
+
+            function openInAboutBlank() {
+                // grab the code from textarea (preserve exactly what user typed)
+                let userCode = textarea.value;
+
+                // if user left it empty, provide minimal valid page (so about:blank isn't truly empty)
+                if (!userCode || userCode.trim() === '') {
+                    userCode = '<!DOCTYPE html><html><head><title>blank</title></head><body style="background: #f0f3f8; display: flex; align-items:center; justify-content:center; font-family: monospace; font-size: 2rem; margin:0; min-height:100vh;">⬜ empty · write something in the textarea</body></html>';
+                }
+
+                // open a new window with 'about:blank' as the initial URL
+                const newWin = window.open('about:blank', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+
+                // if popup blocked, alert the user
+                if (!newWin) {
+                    alert('Popup blocked! Please allow popups for this site, or press Ctrl/Cmd and click the button.');
+                    return;
+                }
+
+                // write the user's code into the new window
+                // we use a tiny delay to ensure the document is ready (usually instantaneous with about:blank)
+                setTimeout(() => {
+                    try {
+                        const doc = newWin.document;
+                        doc.open();
+                        doc.write(userCode);
+                        doc.close();
+                    } catch (err) {
+                        alert('Failed to write to new window: ' + err);
+                        console.error(err);
+                    }
+                }, 20);
+            }
+
+            // attach click handler
+            openBtn.addEventListener('click', openInAboutBlank);
+
+            // optional: let ctrl+enter also run (handy but not required)
+            textarea.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    openInAboutBlank();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
