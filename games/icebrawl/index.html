@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❄️ MINNESOTA STANDOFF · ICE v PROTEST · w/ TIM WALTZ</title>
+    <!-- Montserrat font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #1d3b3a 0%, #2c4e4a 100%);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .game-wrapper {
+            max-width: 1300px;
+            width: 100%;
+            background: #f9e5b7;
+            background-image: radial-gradient(circle at 30% 40%, #ffeac2 5%, #f3d99b 80%);
+            border-radius: 90px 90px 50px 50px;
+            padding: 25px 25px 30px;
+            box-shadow: 0 25px 15px #1f2f2a, 0 0 0 8px #c49a6c, 0 0 0 12px #f1cf9c;
+            border: 4px solid #fff2c9;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin: 0 0 15px;
+            font-weight: 800;
+            color: #2f4f4f;
+            text-shadow: 5px 5px 0 #ffb56b, 8px 8px 0 #ffe9b0;
+            letter-spacing: 2px;
+            word-break: break-word;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        h1 span {
+            background: #fdea9c;
+            padding: 5px 25px;
+            border-radius: 70px;
+            font-size: 1.5rem;
+            display: inline-block;
+            margin-left: 10px;
+            border: 3px solid #b46f40;
+            color: #4d2f1b;
+            text-shadow: none;
+            box-shadow: inset 0 -3px 0 #b46f40;
+            font-weight: 600;
+        }
+
+        .canvas-wrap {
+            background: #9c7e5c;
+            border-radius: 70px;
+            padding: 15px;
+            box-shadow: inset 0 0 0 6px #6d4f33, 0 18px 15px #2f412a;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: #b3d0e0;
+            background-image: radial-gradient(circle, #d4e9ff 5%, #8fb7d0 80%);
+            border-radius: 60px;
+            border: 8px solid #d6ae7a;
+            box-shadow: 0 0 0 4px #fceac2, inset 0 0 30px #354e29;
+            width: 1100px;
+            height: 600px;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="%23ffc107" stroke="%23b46f40" stroke-width="3"/></svg>') 16 16, auto;
+        }
+
+        .control-sliders {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin: 25px 0 20px;
+            background: #ffeac1;
+            border-radius: 100px;
+            padding: 20px 35px;
+            border: 5px solid #c19a6b;
+            box-shadow: 0 8px 0 #7b583b, inset 0 2px 10px #ffeecc;
+        }
+
+        .slider-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 160px;
+            background: #ffe3af;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 3px solid #b46f40;
+            box-shadow: 0 5px 0 #7b583b;
+        }
+
+        .slider-card label {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #4b2f1a;
+            text-shadow: 2px 2px 0 #ffc58b;
+            margin-bottom: 8px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .slider-card input {
+            width: 100%;
+            accent-color: #f59e4c;
+            height: 14px;
+        }
+
+        .slider-card span {
+            background: #fdf8cf;
+            padding: 8px 25px;
+            border-radius: 40px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4f2e14;
+            margin-top: 10px;
+            border: 2px solid #b46f40;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .team-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin: 20px 0;
+            background: #ffeac1;
+            border-radius: 100px;
+            padding: 25px 35px;
+            border: 5px solid #c19a6b;
+        }
+
+        .team-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 270px;
+            background: #f7d9a0;
+            padding: 22px 25px;
+            border-radius: 70px;
+            border: 4px solid #b46f40;
+            box-shadow: 0 8px 0 #7b583b;
+        }
+
+        .team-panel label {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #4d2f1b;
+            text-shadow: 3px 3px 0 #ffbc7c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        select, input {
+            background: #fffae6;
+            border: 4px solid #b46f40;
+            border-radius: 50px;
+            padding: 14px 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #35200e;
+            outline: none;
+            box-shadow: 0 5px 0 #7b583b;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #fbeecb;
+            padding: 12px 20px;
+            border-radius: 60px;
+            border: 3px solid #b46f40;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2e401e;
+            box-shadow: inset 0 -2px 0 #b46f40;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 28px;
+            height: 28px;
+            accent-color: #b46f40;
+            box-shadow: none;
+            margin: 0;
+        }
+
+        .strength-badge {
+            background: #fbda9a;
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border: 3px solid #b46f40;
+            box-shadow: inset 0 -3px 0 #b46f40;
+            width: fit-content;
+            color: #412e19;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin: 5px 0 20px;
+        }
+
+        .fun-button {
+            background: #f9b83c;
+            border: none;
+            border-radius: 80px;
+            padding: 20px 60px;
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #2d3f2d;
+            text-shadow: 3px 3px 0 #ffe28c;
+            box-shadow: 0 12px 0 #9f6d3a, 0 0 0 4px #ffddb0;
+            transition: 0.07s ease;
+            cursor: pointer;
+            border: 3px solid #ffeaaf;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .fun-button:active {
+            transform: translateY(10px);
+            box-shadow: 0 4px 0 #9f6d3a, 0 0 0 4px #ffddb0;
+        }
+
+        #resetBtn {
+            background: #aac0b0;
+            color: #2b4020;
+            text-shadow: 3px 3px 0 #d4e3b0;
+            box-shadow: 0 12px 0 #6d7a5a, 0 0 0 4px #e7f0c0;
+        }
+
+        .game-status {
+            background: #fed99b;
+            border-radius: 60px;
+            padding: 20px 35px;
+            font-size: 2.4rem;
+            font-weight: 700;
+            text-align: center;
+            border: 6px solid #b46f40;
+            box-shadow: 0 8px 0 #7b583b, inset 0 2px 20px #ffddb0;
+            color: #2d3e2d;
+            margin: 20px 0 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .footer {
+            color: #3b4f3b;
+            text-align: right;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 15px;
+            padding-right: 10px;
+            text-shadow: 1px 1px 0 #ebc288;
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<div class="game-wrapper">
+    <h1>❄️ MINNESOTA ICE · PROTEST ❄️ <span>choose gun options</span></h1>
+
+    <div class="canvas-wrap">
+        <canvas id="battleCanvas" width="1100" height="600"></canvas>
+    </div>
+
+    <!-- Sliders (default speed 0.5) -->
+    <div class="control-sliders">
+        <div class="slider-card">
+            <label>🏃 SPEED</label>
+            <input type="range" id="speedSlider" min="0.2" max="4.5" value="0.5" step="0.1">
+            <span id="speedVal">0.5x</span>
+        </div>
+        <div class="slider-card">
+            <label>💪 MASS</label>
+            <input type="range" id="massSlider" min="0.3" max="3.2" value="1.3" step="0.1">
+            <span id="massVal">1.3x</span>
+        </div>
+        <div class="slider-card">
+            <label>🔥 DAMAGE</label>
+            <input type="range" id="damageSlider" min="0.3" max="3.5" value="1.3" step="0.1">
+            <span id="damageVal">1.3x</span>
+        </div>
+    </div>
+
+    <!-- Team panels with gun options and Tim Walz checkbox -->
+    <div class="team-columns">
+        <!-- LEFT: ICE AGENTS -->
+        <div class="team-panel">
+            <label>🚔 ICE AGENTS (MN)</label>
+            <select id="leftSelect"></select>
+            <input type="number" id="leftNum" min="1" value="12" placeholder="count">
+            <div class="checkbox-group">
+                <span>🔫 AGENTS GOOD GUNS?</span>
+                <input type="checkbox" id="iceGunsCheck" checked>
+            </div>
+            <span class="strength-badge" id="leftStr">💪 0</span>
+        </div>
+
+        <!-- RIGHT: PROTESTERS + TIM WALTZ -->
+        <div class="team-panel">
+            <label>📢 PROTESTERS</label>
+            <select id="rightSelect"></select>
+            <input type="number" id="rightNum" min="1" value="14" placeholder="count">
+            <div class="checkbox-group">
+                <span>🔫 PROTESTERS HAVE GUNS?</span>
+                <input type="checkbox" id="protestGunsCheck">
+            </div>
+            <div class="checkbox-group">
+                <span>⭐ TIM WALTZ (SUPER PROTESTER)</span>
+                <input type="checkbox" id="timWalzCheck">
+            </div>
+            <span class="strength-badge" id="rightStr">💪 0</span>
+        </div>
+    </div>
+
+    <!-- Button row higher up -->
+    <div class="button-row">
+        <button class="fun-button" id="fightBtn">⚡ BRAWL! ⚡</button>
+        <button class="fun-button" id="resetBtn">🔄 RESET</button>
+    </div>
+
+    <div class="game-status" id="battleMessage">⛄ PICK TEAMS · TOGGLE GUNS · TIM WALTZ ⛄</div>
+    <div class="footer">❄️ default speed 0.5 · ice v protest · button higher</div>
+</div>
+
+<script>
+(function() {
+    // ---------- ANIMAL base moved to realistic MN / ICE / protester flavor ----------
+    // We keep strength numbers, but rename to characters.
+    const characters = [
+        { name: "ICE Agent (standard)", emoji: "👮‍♂️", strength: 65, side: 'ice' },
+        { name: "ICE tactical", emoji: "⛓️‍💥", strength: 78, side: 'ice' },
+        { name: "Homeland Security", emoji: "🛂", strength: 72, side: 'ice' },
+        { name: "Border Patrol (MN)", emoji: "🚨", strength: 70, side: 'ice' },
+        { name: "State Trooper", emoji: "👮", strength: 68, side: 'ice' },
+        { name: "Sheriff (pro-ICE)", emoji: "⭐", strength: 62, side: 'ice' },
+        { name: "ICE drone operator", emoji: "📡", strength: 55, side: 'ice' },
+        { name: "Progressive protester", emoji: "✊", strength: 35, side: 'protest' },
+        { name: "Community organizer", emoji: "🗣️", strength: 42, side: 'protest' },
+        { name: "Law student", emoji: "📜", strength: 25, side: 'protest' },
+        { name: "Teacher", emoji: "🍎", strength: 22, side: 'protest' },
+        { name: "Union worker", emoji: "🔧", strength: 48, side: 'protest' },
+        { name: "Nurse", emoji: "💉", strength: 30, side: 'protest' },
+        { name: "Farmer (for immigrants)", emoji: "🚜", strength: 44, side: 'protest' },
+        { name: "University student", emoji: "🎓", strength: 18, side: 'protest' },
+        { name: "Tim Walz (Governor)", emoji: "🏛️", strength: 98, side: 'protest' }, // special but added manually
+    ];
+
+    // For select dropdown we need a unified list but we'll label them clearly
+    // Remove duplicates (by name)
+    const uniqueChars = [];
+    const seen = new Set();
+    for (let c of characters) {
+        if (!seen.has(c.name)) {
+            uniqueChars.push(c);
+            seen.add(c.name);
+        }
+    }
+    uniqueChars.sort((a,b) => a.name.localeCompare(b.name));
+
+    // DOM elements
+    const leftSelect = document.getElementById('leftSelect');
+    const rightSelect = document.getElementById('rightSelect');
+    const leftStrSpan = document.getElementById('leftStr');
+    const rightStrSpan = document.getElementById('rightStr');
+    const leftNum = document.getElementById('leftNum');
+    const rightNum = document.getElementById('rightNum');
+    const iceGunsCheck = document.getElementById('iceGunsCheck');
+    const protestGunsCheck = document.getElementById('protestGunsCheck');
+    const timWalzCheck = document.getElementById('timWalzCheck');
+    const canvas = document.getElementById('battleCanvas');
+    const ctx = canvas.getContext('2d');
+    const battleMsg = document.getElementById('battleMessage');
+
+    // sliders
+    const speedSlider = document.getElementById('speedSlider');
+    const speedSpan = document.getElementById('speedVal');
+    const massSlider = document.getElementById('massSlider');
+    const massSpan = document.getElementById('massVal');
+    const damageSlider = document.getElementById('damageSlider');
+    const damageSpan = document.getElementById('damageVal');
+
+    let speedMult = 0.5;
+    let massMult = 1.3;
+    let damageMult = 1.3;
+
+    speedSlider.addEventListener('input', () => {
+        speedMult = parseFloat(speedSlider.value);
+        speedSpan.innerText = speedMult.toFixed(1) + 'x';
+    });
+    massSlider.addEventListener('input', () => {
+        massMult = parseFloat(massSlider.value);
+        massSpan.innerText = massMult.toFixed(1) + 'x';
+    });
+    damageSlider.addEventListener('input', () => {
+        damageMult = parseFloat(damageSlider.value);
+        damageSpan.innerText = damageMult.toFixed(1) + 'x';
+    });
+
+    // populate selects with characters (both sides get same base list, but side flavor is in name)
+    uniqueChars.forEach(c => {
+        let optL = document.createElement('option');
+        optL.value = c.name;
+        optL.textContent = `${c.emoji} ${c.name} (${c.strength})`;
+        leftSelect.appendChild(optL);
+
+        let optR = document.createElement('option');
+        optR.value = c.name;
+        optR.textContent = `${c.emoji} ${c.name} (${c.strength})`;
+        rightSelect.appendChild(optR);
+    });
+
+    function getCharacter(name) {
+        return uniqueChars.find(c => c.name === name);
+    }
+
+    function updateBadges() {
+        let l = getCharacter(leftSelect.value);
+        let r = getCharacter(rightSelect.value);
+        if (l) leftStrSpan.innerText = `💪 ${l.strength} ${l.emoji}`;
+        if (r) rightStrSpan.innerText = `💪 ${r.strength} ${r.emoji}`;
+    }
+    leftSelect.addEventListener('change', updateBadges);
+    rightSelect.addEventListener('change', updateBadges);
+
+    // Default: ICE left, Protester right
+    leftSelect.value = "ICE Agent (standard)";
+    rightSelect.value = "Community organizer";
+    updateBadges();
+
+    // Warrior class with gun modifiers
+    let warriors = [];
+    let battleActive = false;
+    let animFrame = null;
+
+    class Warrior {
+        constructor(char, side, x, y, id, hasGunBonus = false, isTimWalz = false) {
+            this.char = char;
+            this.side = side; // 'left' or 'right'
+            this.x = x;
+            this.y = y;
+            this.vx = (Math.random() - 0.5) * 3;
+            this.vy = (Math.random() - 0.5) * 3;
+            this.id = id;
+            // strength modifications: guns add flat +25, Tim Walz gets 98 but we override
+            let baseStr = char.strength;
+            if (isTimWalz) baseStr = 98; 
+            if (hasGunBonus) baseStr += 25;
+            this.maxHp = Math.min(150, baseStr); // cap a bit
+            this.hp = this.maxHp;
+            this.radius = 24;
+            this.hasGun = hasGunBonus;
+            this.isTim = isTimWalz;
+        }
+        alive() { return this.hp > 0; }
+        takeDamage(amt) { this.hp = Math.max(0, this.hp - amt); }
+
+        moveTowardEnemies(enemies, sMult, mMult) {
+            if (!enemies.length) return;
+            let closest = null;
+            let minDist = Infinity;
+            for (let e of enemies) {
+                let d = Math.hypot(e.x - this.x, e.y - this.y);
+                if (d < minDist) { minDist = d; closest = e; }
+            }
+            if (closest) {
+                let angle = Math.atan2(closest.y - this.y, closest.x - this.x);
+                this.vx += Math.cos(angle) * 0.45 * mMult;
+                this.vy += Math.sin(angle) * 0.45 * mMult;
+            }
+            this.vx += (Math.random() - 0.5) * 0.25;
+            this.vy += (Math.random() - 0.5) * 0.25;
+
+            let sp = Math.hypot(this.vx, this.vy);
+            let maxSp = 5.5 * sMult;
+            if (sp > maxSp) {
+                this.vx = (this.vx / sp) * maxSp;
+                this.vy = (this.vy / sp) * maxSp;
+            }
+            this.x += this.vx * sMult;
+            this.y += this.vy * sMult;
+
+            // boundaries
+            if (this.x < 40) { this.x = 40; this.vx *= -0.5; }
+            if (this.x > 1060) { this.x = 1060; this.vx *= -0.5; }
+            if (this.y < 45) { this.y = 45; this.vy *= -0.5; }
+            if (this.y > 555) { this.y = 555; this.vy *= -0.5; }
+        }
+
+        draw(ctx) {
+            ctx.font = '44px "Segoe UI", "Apple Color Emoji", "Noto Color Emoji", "Montserrat", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            // Tim gets a little star
+            let emoji = this.char.emoji;
+            if (this.isTim) emoji = "🏛️⭐"; 
+            ctx.fillText(emoji, this.x, this.y-8);
+            let barW = 62;
+            let barX = this.x - barW/2;
+            let barY = this.y + 26;
+            ctx.fillStyle = '#3f2620';
+            ctx.fillRect(barX, barY, barW, 12);
+            ctx.fillStyle = this.side === 'left' ? '#4b7db3' : '#d94f4f';
+            let p = this.hp / this.maxHp;
+            ctx.fillRect(barX, barY, barW * p, 12);
+            ctx.strokeStyle = '#f9d77e';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(barX, barY, barW, 12);
+            // tiny gun icon if hasGun
+            if (this.hasGun) {
+                ctx.font = '24px "Segoe UI"';
+                ctx.fillStyle = '#333';
+                ctx.fillText('🔫', this.x-15, this.y-28);
+            }
+        }
+    }
+
+    function spawnArmies() {
+        warriors = [];
+        let leftChar = getCharacter(leftSelect.value);
+        let rightChar = getCharacter(rightSelect.value);
+        if (!leftChar || !rightChar) return;
+
+        let lc = parseInt(leftNum.value);
+        let rc = parseInt(rightNum.value);
+        if (isNaN(lc) || lc < 1) lc = 1;
+        if (isNaN(rc) || rc < 1) rc = 1;
+        leftNum.value = lc;
+        rightNum.value = rc;
+
+        const iceGuns = iceGunsCheck.checked;
+        const protestGuns = protestGunsCheck.checked;
+        const addTim = timWalzCheck.checked;
+
+        let id = 0;
+        // left side (ICE agents) — all have gun if iceGuns true
+        for (let i=0; i<lc; i++) {
+            warriors.push(new Warrior(leftChar, 'left', 120+Math.random()*200, 80+Math.random()*440, id++, iceGuns, false));
+        }
+        // right side (protesters) — maybe guns, maybe Tim replaces one?
+        for (let i=0; i<rc; i++) {
+            let isTim = (addTim && i === 0); // first protester is Tim if checked
+            warriors.push(new Warrior(rightChar, 'right', 780+Math.random()*200, 80+Math.random()*440, id++, protestGuns, isTim));
+        }
+    }
+
+    function updateBattle() {
+        let leftAlive = warriors.filter(w => w.side==='left' && w.alive());
+        let rightAlive = warriors.filter(w => w.side==='right' && w.alive());
+
+        if (leftAlive.length===0 || rightAlive.length===0) {
+            if (battleActive) {
+                battleActive = false;
+                if (animFrame) cancelAnimationFrame(animFrame); animFrame=null;
+                if (leftAlive.length===0 && rightAlive.length===0) battleMsg.innerText = '💀 TOTAL COLLAPSE 💀';
+                else if (leftAlive.length===0) battleMsg.innerText = `🎉 PROTESTERS WIN! (Tim Walz ${rightAlive.some(w=>w.isTim)?'⭐':'✨'} left: ${rightAlive.length}) 🎉`;
+                else battleMsg.innerText = `🚔 ICE AGENTS WIN! (${leftAlive.length} left) 🚔`;
+            }
+            return;
+        }
+
+        // move
+        for (let w of warriors) {
+            if (!w.alive()) continue;
+            let enemies = w.side==='left' ? rightAlive : leftAlive;
+            w.moveTowardEnemies(enemies, speedMult, massMult);
+        }
+
+        // combat with gun influence (higher damage if has gun)
+        for (let left of leftAlive) {
+            for (let right of rightAlive) {
+                let dx = left.x - right.x, dy = left.y - right.y;
+                let dist = Math.hypot(dx, dy);
+                if (dist < 70) {
+                    // damage: base from strength, plus gun bonus (extra 0.4 multiplier if has gun)
+                    let leftDmg = (left.char.strength * 0.06 + Math.random()*2) * damageMult * (left.hasGun ? 1.9 : 1.0);
+                    let rightDmg = (right.char.strength * 0.06 + Math.random()*2) * damageMult * (right.hasGun ? 1.9 : 1.0);
+                    // Tim walz bonus damage if Tim (already strength high, but add tiny)
+                    if (left.isTim) leftDmg *= 1.3;
+                    if (right.isTim) rightDmg *= 1.3;
+
+                    left.takeDamage(rightDmg);
+                    right.takeDamage(leftDmg);
+                    if (dist > 10) {
+                        let ang = Math.atan2(dy, dx);
+                        let f = 0.9 * massMult;
+                        left.x += Math.cos(ang)*f;
+                        left.y += Math.sin(ang)*f;
+                        right.x -= Math.cos(ang)*f;
+                        right.y -= Math.sin(ang)*f;
+                    }
+                }
+            }
+        }
+
+        warriors = warriors.filter(w => w.alive());
+    }
+
+    function drawScene() {
+        ctx.clearRect(0,0,1100,600);
+        // Minnesota winter ground
+        ctx.fillStyle = '#c5ddea';
+        ctx.fillRect(0,0,1100,600);
+        ctx.globalAlpha = 0.2;
+        for (let i=0;i<20;i++) {
+            ctx.fillStyle = '#a1c2d9';
+            ctx.beginPath();
+            ctx.arc(80+i*90, 520+Math.sin(i)*15, 30, 0, Math.PI*2);
+            ctx.fill();
+        }
+        ctx.globalAlpha=1;
+        ctx.strokeStyle = '#e0b061';
+        ctx.lineWidth = 12;
+        ctx.strokeRect(10,10,1080,580);
+        for (let w of warriors) if (w.alive()) w.draw(ctx);
+    }
+
+    function gameLoop() {
+        if (!battleActive) return;
+        if (warriors.filter(w=>w.alive()).length===0) {
+            battleActive=false; animFrame=null; battleMsg.innerText='💀 GAME OVER 💀'; drawScene(); return;
+        }
+        updateBattle();
+        drawScene();
+        animFrame = requestAnimationFrame(gameLoop);
+    }
+
+    function startBattle() {
+        if (animFrame) cancelAnimationFrame(animFrame);
+        spawnArmies();
+        battleActive = true;
+        battleMsg.innerText = '⚡ MINNESOTA BRAWL · GO ⚡';
+        animFrame = requestAnimationFrame(gameLoop);
+    }
+
+    function resetAll() {
+        if (animFrame) cancelAnimationFrame(animFrame);
+        battleActive = false; animFrame=null;
+        leftSelect.value = "ICE Agent (standard)";
+        rightSelect.value = "Community organizer";
+        leftNum.value = 12;
+        rightNum.value = 14;
+        iceGunsCheck.checked = true;
+        protestGunsCheck.checked = false;
+        timWalzCheck.checked = false;
+        updateBadges();
+
+        speedSlider.value = "0.5";
+        massSlider.value = "1.3";
+        damageSlider.value = "1.3";
+        speedMult = 0.5;
+        massMult = 1.3;
+        damageMult = 1.3;
+        speedSpan.innerText = "0.5x";
+        massSpan.innerText = "1.3x";
+        damageSpan.innerText = "1.3x";
+
+        spawnArmies();
+        drawScene();
+        battleMsg.innerText = '⛄ PICK TEAMS · TOGGLE GUNS · TIM WALTZ ⛄';
+    }
+
+    document.getElementById('fightBtn').addEventListener('click', startBattle);
+    document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+    // Initial spawn and slider sync
+    speedSpan.innerText = "0.5x";
+    massSpan.innerText = "1.3x";
+    damageSpan.innerText = "1.3x";
+    spawnArmies();
+    drawScene();
+})();
+</script>
+</body>
+</html>
